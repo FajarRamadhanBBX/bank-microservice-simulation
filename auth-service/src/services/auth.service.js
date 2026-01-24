@@ -17,7 +17,7 @@ const registerAdmin = async (email, password, role) => {
     return admin;
 }
 
-const loginUser = async (email, password) => {
+const loginUser = async (email, password, role) => {
     const user = await getUserByEmail(email);
     if (!user) {
         throw new Error('User not found');
@@ -53,6 +53,7 @@ const unregisterUserByEmail = async (email) => {
 module.exports = {
     registerUser,
     registerAdmin,
+    loginUser,
     fetchUserByEmail,
     fetchAllUsers,
     updateUserPassword,
