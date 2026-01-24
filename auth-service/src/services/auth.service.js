@@ -17,8 +17,21 @@ const registerAdmin = async (email, password, role) => {
     return admin;
 }
 
+const loginUser = async (email, password) => {
+    const user = await getUserByEmail(email);
+    if (!user) {
+        throw new Error('User not found');
+    }
+    if (user.password !== password) {
+        throw new Error('Invalid password');
+    }
+}
+
 const fetchUserByEmail = async (email) => {
     const user = await getUserByEmail(email);
+    if (!user) {
+        throw new Error('User not found');
+    }
     return user;
 }
 
@@ -28,7 +41,7 @@ const fetchAllUsers = async () => {
 }
 
 const updateUserPassword = async (email, newPassword) => {
-    const result = await changeUserPassword(email, password)
+    const result = await changeUserPassword(email, newPassword)
     return result;
 }
 
