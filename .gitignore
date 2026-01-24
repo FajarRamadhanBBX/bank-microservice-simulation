@@ -1,0 +1,12 @@
+# Node.js dependencies
+node_modules
+package-lock.json
+package.json
+
+# Environment variables
+.env
+
+# Personal notes
+notes*
+tes
+Bank Microservice Project.drawio
