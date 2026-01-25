@@ -7,9 +7,18 @@ const {
     removeUserByEmail
 } = require("../repositories/user.repo");
 
+const {
+    hashPassword,
+    comparePassword
+} = require("../utils/hash");
+
 const registerUser = async (email, password) => {
-    const user = await createUser(email, password);
-    return user;
+    const existingUser = await getUserByEmail(email);
+    if (existingUser) {
+        throw new Error("User already exists");
+    }
+    const hashedPassword = await hashPassword(password);
+    return await createUser(email, hashedPassword);
 }
 
 const registerAdmin = async (email, password, role) => {
@@ -17,13 +26,21 @@ const registerAdmin = async (email, password, role) => {
     return admin;
 }
 
-const loginUser = async (email, password, role) => {
+const loginUser = async (email, password) => {
     const user = await getUserByEmail(email);
     if (!user) {
-        throw new Error('User not found');
+        throw new Error("User not found");
     }
-    if (user.password !== password) {
-        throw new Error('Invalid password');
+    
+    const isPasswordValid = await comparePassword(password, user.password);
+    if (!isPasswordValid){
+        throw new Error("Invalid password");
+    }
+
+    return {
+        id: user.id,
+        email: user.email,
+        role: user.role
     }
 }
 
@@ -41,7 +58,8 @@ const fetchAllUsers = async () => {
 }
 
 const updateUserPassword = async (email, newPassword) => {
-    const result = await changeUserPassword(email, newPassword)
+    const hashedPassword = await hashPassword(newPassword);
+    const result = await changeUserPassword(email, hashedPassword)
     return result;
 }
 
