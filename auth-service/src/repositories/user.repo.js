@@ -2,7 +2,7 @@ const db = require("../config/db");
 
 const createUser = async (email, password) => {
     const res = await db.query(
-        "INSERT INTO users (email, password) VALUES ($1, $2)",
+        "INSERT INTO users_auth (email, password) VALUES ($1, $2)",
         [email, password]
     )
     return res;
@@ -10,7 +10,7 @@ const createUser = async (email, password) => {
 
 const createAdmin = async (email, password, role) => {
     const res = await db.query(
-        "INSERT INTO users (email, password, role) VALUES ($1, $2, $3)",
+        "INSERT INTO users_auth (email, password, role) VALUES ($1, $2, $3)",
         [email, password, role]
     )
     return res;
@@ -18,7 +18,7 @@ const createAdmin = async (email, password, role) => {
 
 const readUserByEmail = async (email) => {
     const res = await db.query(
-        "SELECT * FROM users WHERE email = $1",
+        "SELECT * FROM users_auth WHERE email = $1",
         [email]
     )
     return res.rows[0];
@@ -26,14 +26,14 @@ const readUserByEmail = async (email) => {
 
 const readAllUsers = async () => {
     const res = await db.query(
-        "SELECT * FROM users"
+        "SELECT * FROM users_auth"
     )
     return res.rows;
 }
 
 const updateUserPassword = async (email, newPassword) => {
     const res = await db.query(
-        "UPDATE users SET password = $1 WHERE email = $2",
+        "UPDATE users_auth SET password = $1 WHERE email = $2",
         [newPassword, email]
     )
     return res;
@@ -41,7 +41,7 @@ const updateUserPassword = async (email, newPassword) => {
 
 const deleteUserByEmail = async (email) => {
     const res = await db.query(
-        "DELETE FROM users WHERE email = $1",
+        "DELETE FROM users_auth WHERE email = $1",
         [email]
     )
     return res;

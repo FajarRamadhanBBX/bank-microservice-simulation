@@ -1,11 +1,4 @@
-const {
-    createUser,
-    createAdmin,
-    getUserByEmail,
-    getAllUsers,
-    changeUserPassword,
-    removeUserByEmail
-} = require("../repositories/user.repo");
+const repo = require("../repositories/user.repo");
 
 const {
     hashPassword,
@@ -13,21 +6,21 @@ const {
 } = require("../utils/hash");
 
 const registerUser = async (email, password) => {
-    const existingUser = await getUserByEmail(email);
+    const existingUser = await repo.readUserByEmail(email);
     if (existingUser) {
         throw new Error("User already exists");
     }
     const hashedPassword = await hashPassword(password);
-    return await createUser(email, hashedPassword);
+    return await repo.createUser(email, hashedPassword);
 }
 
 const registerAdmin = async (email, password, role) => {
-    const admin = await createAdmin(email, password, role);
+    const admin = await repo.createAdmin(email, password, role);
     return admin;
 }
 
 const loginUser = async (email, password) => {
-    const user = await getUserByEmail(email);
+    const user = await repo.readUserByEmail(email);
     if (!user) {
         throw new Error("User not found");
     }
@@ -45,7 +38,7 @@ const loginUser = async (email, password) => {
 }
 
 const fetchUserByEmail = async (email) => {
-    const user = await getUserByEmail(email);
+    const user = await repo.readUserByEmail(email);
     if (!user) {
         throw new Error('User not found');
     }
@@ -53,18 +46,18 @@ const fetchUserByEmail = async (email) => {
 }
 
 const fetchAllUsers = async () => {
-    const users = await getAllUsers();
+    const users = await repo.readAllUsers();
     return users;
 }
 
 const updateUserPassword = async (email, newPassword) => {
     const hashedPassword = await hashPassword(newPassword);
-    const result = await changeUserPassword(email, hashedPassword)
+    const result = await repo.updateUserPassword(email, hashedPassword);
     return result;
 }
 
 const unregisterUserByEmail = async (email) => {
-    const result = await removeUserByEmail(email);
+    const result = await repo.deleteUserByEmail(email);
     return result;
 }
 
