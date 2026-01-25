@@ -1,4 +1,4 @@
-const repo = require("../repositories/user.repo");
+const repo = require("../repositories/auth.repo");
 
 const {
     hashPassword,
@@ -65,6 +65,7 @@ module.exports = {
     registerAdmin,
     loginUser,
     fetchUserByEmail,
+    fetchUserById,
     fetchAllUsers,
     updateUserPassword,
     unregisterUserByEmail
