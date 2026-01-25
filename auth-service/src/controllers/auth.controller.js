@@ -1,3 +1,4 @@
+const { get } = require('../routes/auth.routes');
 const authService = require('../services/auth.service');
 
 const register = async (req, res) => {
@@ -31,7 +32,7 @@ const getAllUsers = async (req, res) => {
 
 const getUser = async (req, res) => {
     try {
-        const { email } = req.body;
+        const { email } = req.params;
         const user = await authService.fetchUserByEmail(email);
         res.status(200).json({ user });
     } catch (err) {
@@ -64,6 +65,7 @@ module.exports = {
     login,
     getAllUsers,
     getUser,
+    getMe,
     updatePassword,
     unregisterUser
 }
