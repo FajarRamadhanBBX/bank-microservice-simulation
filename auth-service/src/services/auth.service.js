@@ -5,6 +5,8 @@ const {
     comparePassword
 } = require("../utils/hash");
 
+const { generateToken } = require("../utils/jwt");
+
 const registerUser = async (email, password) => {
     const existingUser = await repo.readUserByEmail(email);
     if (existingUser) {
@@ -30,11 +32,8 @@ const loginUser = async (email, password) => {
         throw new Error("Invalid password");
     }
 
-    return {
-        id: user.id,
-        email: user.email,
-        role: user.role
-    }
+    const token = generateToken(user);
+    return { token };
 }
 
 const fetchUserByEmail = async (email) => {
