@@ -1,7 +1,7 @@
-const repo = require('../repositories/user.repository');
+const repo = require('../repositories/user.repo');
 
-const createUserProfile = async(id, auth_id, fullname, phone, address) => {
-    const profile = await repo.createUserProfile(id, auth_id, fullname, phone, address);
+const createUserProfile = async(auth_id, fullname, phone, address) => {
+    const profile = await repo.createUserProfile(auth_id, fullname, phone, address);
     return profile;
 }
 
@@ -18,12 +18,12 @@ const fetchAllProfiles = async() => {
     return profiles;
 }
 
-const updateProfile = async(auth_id, fullname, phone, address) => {
+const updateUserProfile = async(auth_id, fullname, phone, address) => {
     const newProfile = await repo.updateUserProfile(auth_id, fullname, phone, address);
     return newProfile;
 }
 
-const deleteProfile = async(auth_id) => {
+const removeUserProfile = async(auth_id) => {
     const result = await repo.deleteUserProfileByAuthId(auth_id);
     return result;
 }
@@ -32,6 +32,6 @@ module.exports = {
     createUserProfile,
     fetchProfileByAuthId,
     fetchAllProfiles,
-    updateProfile,
-    deleteProfile
+    updateUserProfile,
+    removeUserProfile
 }
