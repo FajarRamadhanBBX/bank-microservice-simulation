@@ -1,9 +1,9 @@
-const db = require('../../config/db');
+const db = require('../config/db');
 
-const createUserProfile = async(id, auth_id, fullname, phone, address) => {
+const createUserProfile = async(auth_id, fullname, phone, address) => {
     const res = await db.query(
-        "INSERT INTO users_profile (id, auth_id, fullname, phone, address) VALUES ($1, $2, $3, $4, $5)",
-        [id, auth_id, fullname, phone, address]
+        "INSERT INTO users_profile (auth_id, fullname, phone, address) VALUES ($1, $2, $3, $4)",
+        [auth_id, fullname, phone, address]
     )
     return res;
 }
