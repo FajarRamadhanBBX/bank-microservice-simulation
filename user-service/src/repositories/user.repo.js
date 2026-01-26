@@ -16,7 +16,7 @@ const readUserProfileByAuthId = async(auth_id) => {
     return res.rows[0];
 }
 
-const readAllUsers = async() => {
+const readAllProfiles = async() => {
     const res = await db.query(
         "SELECT * FROM users_profile"
     )
@@ -42,7 +42,7 @@ const deleteUserProfileByAuthId = async(auth_id) => {
 module.exports = {
     createUserProfile,
     readUserProfileByAuthId,
-    readAllUsers,
+    readAllProfiles,
     updateUserProfile,
     deleteUserProfileByAuthId
 }
