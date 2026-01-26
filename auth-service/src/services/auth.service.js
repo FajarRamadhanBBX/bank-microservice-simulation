@@ -65,7 +65,6 @@ module.exports = {
     registerAdmin,
     loginUser,
     fetchUserByEmail,
-    fetchUserById,
     fetchAllUsers,
     updateUserPassword,
     unregisterUserByEmail

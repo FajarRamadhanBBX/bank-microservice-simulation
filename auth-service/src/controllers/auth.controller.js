@@ -1,4 +1,3 @@
-const { get } = require('../routes/auth.routes');
 const authService = require('../services/auth.service');
 
 const register = async (req, res) => {
@@ -65,7 +64,6 @@ module.exports = {
     login,
     getAllUsers,
     getUser,
-    getMe,
     updatePassword,
     unregisterUser
 }
