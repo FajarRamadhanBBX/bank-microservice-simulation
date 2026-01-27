@@ -12,7 +12,7 @@ const createProfile = async (req, res) => {
 
 const getProfile = async (req, res) => {
     try {
-        const { auth_id } = req.params;
+        const { auth_id } = req.body;
         const profile = await userService.fetchProfileByAuthId(auth_id);
         res.status(200).json({ profile });
     } catch (err) {
