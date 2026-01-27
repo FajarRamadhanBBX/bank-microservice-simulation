@@ -32,6 +32,10 @@ const loginUser = async (email, password) => {
         throw new Error("Invalid password");
     }
 
+    if (!user.is_active){
+        throw new Error("User is not active");
+    }
+
     const token = generateToken(user);
     return { token };
 }
