@@ -49,6 +49,26 @@ const updatePassword = async (req, res) => {
     }
 }
 
+const deactivateAuth = async (req, res) => {
+    try {
+        const { email, status } = req.body;
+        const result = await authService.updateStatusByUser(email, status);
+        res.status(200).json({ message: 'Change status successfully', result });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+}
+
+const changeStatusByAdmin = async (req, res) => {
+    try {
+        const { email, status } = req.body;
+        const result = await authService.updateStatusByAdmin(email, status);
+        res.status(200).json({ message: 'Change status successfully', result });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+}
+
 const unregisterUser = async (req, res) => {
     try {
         const { email } = req.body;
@@ -65,5 +85,7 @@ module.exports = {
     getAllUsers,
     getUser,
     updatePassword,
-    unregisterUser
+    unregisterUser,
+    deactivateAuth,
+    changeStatusByAdmin
 }

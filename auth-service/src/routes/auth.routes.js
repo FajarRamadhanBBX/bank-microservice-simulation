@@ -4,9 +4,10 @@ const authController = require("../controllers/auth.controller");
 
 router.post("/register", authController.register);
 router.post("/login", authController.login);
-router.get("/users", authController.getAllUsers);
-router.get("/users/email/:email", authController.getUser);
-router.put("/update-password", authController.updatePassword);
-router.delete("/unregister", authController.unregisterUser);
+router.put("/update/password", authController.updatePassword);
+router.put("/me/deactivate", authController.deactivateAuth);
+router.get("/admin/users", authController.getAllUsers);
+router.get("/admin/users/email/:email", authController.getUser);
+router.put("/admin/users/:id/status", authController.changeStatusByAdmin);
 
 module.exports = router;
