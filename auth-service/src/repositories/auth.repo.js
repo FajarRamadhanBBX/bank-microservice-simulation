@@ -46,14 +46,6 @@ const updateUserPassword = async (email, newPassword) => {
     return res;
 }
 
-const deleteUserByEmail = async (email) => {
-    const res = await db.query(
-        "DELETE FROM users WHERE email = $1",
-        [email]
-    )
-    return res;
-}
-
 module.exports = {
     createUser,
     createAdmin,
