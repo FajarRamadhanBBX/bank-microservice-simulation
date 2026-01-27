@@ -2,10 +2,59 @@ const axios = require("axios");
 const {
     USER_SERVICE
 } = require("../config/services");
+const { param } = require("../routes/user.routes");
 
-const getMe = async(req, res) => {
+const createProfile = async(req, res) => {
     try {
-        console.log("req.user", req.user);
+        const response = await axios.post(
+            `${USER_SERVICE}/users/profiles`,
+            {
+                headers: {
+                    "x-user-id": req.user.id,
+                    "x-user-role": req.user.role
+                },
+                data: req.body
+            }
+        )
+        return res.status(201).json({ message: "Profile created successfully", data: response.data });
+    } catch(err) {
+        return res.status(500).json({message: "Create profile failed"});
+    }
+}
+
+const getProfile = async(req, res) => {
+    try {
+        const response = await axios.post(
+            `${USER_SERVICE}/users/profiles`,
+            {
+                params: {
+                    "x-user-id": req.user.id,
+                }
+            }
+        )
+    } catch(err) {
+        return res.status(500).json({message: "Get profile failed"});
+    }
+}
+
+const getAllProfiles = async(req, res) => {
+    try {
+        const response = await axios.get(
+            `${USER_SERVICE}/users/profiles`,
+            {
+                headers: {
+                    "x-user-id": req.user.id,
+                    "x-user-role": req.user.role
+                }
+            }
+        )
+    } catch(err) {
+        return res.status(500).json({message: "Get all profiles failed"});
+    }
+}
+
+const getMyProfile = async(req, res) => {
+    try {
         const response = await axios.get(
             `${USER_SERVICE}/users/me`,
             {
@@ -22,6 +71,44 @@ const getMe = async(req, res) => {
     }
 }
 
+const updateMyProfile = async(req, res) => {
+    try {
+        const response = await axios.put(
+            `${USER_SERVICE}/users/me`,
+            {
+                headers: {
+                    "x-user-id": req.user.id,
+                    "x-user-role": req.user.role
+                },
+                data: req.body
+            }
+        )
+    } catch(err) {
+        return res.status(500).json({message: "Update profile failed"});
+    }
+}
+
+const deleteMyProfile = async(req, res) => {
+    try {
+        const response = await axios.delete(
+            `${USER_SERVICE}/users/me`,
+            {
+                headers: {
+                    "x-user-id": req.user.id,
+                    "x-user-role": req.user.role
+                }
+            }
+        )
+    } catch(err) {
+        return res.status(500).json({message: "Update profile failed"});
+    }
+}
+
 module.exports = {
-    getMe
+    createProfile,
+    getProfile,
+    getAllProfiles,
+    getMyProfile,
+    updateMyProfile,
+    deleteMyProfile
 };
