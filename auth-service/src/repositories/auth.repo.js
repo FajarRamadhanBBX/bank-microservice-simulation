@@ -52,5 +52,5 @@ module.exports = {
     readUserByEmail,
     readAllUsers,
     updateUserPassword,
-    deleteUserByEmail
+    updateUserStatus
 }

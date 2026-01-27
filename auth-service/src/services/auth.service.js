@@ -55,9 +55,19 @@ const updateUserPassword = async (email, newPassword) => {
     return result;
 }
 
-const unregisterUserByEmail = async (email) => {
-    const result = await repo.deleteUserByEmail(email);
-    return result;
+const updateStatusByUser = async (email, newStatus) => {
+    const user = await repo.readUserByEmail(email);
+    if (!user.is_active) {
+        throw new Error("Disabled to change");
+    }
+    const result = await repo.updateUserStatus(email, newStatus);
+    return result
+}
+
+const updateStatusByAdmin = async (email, newStatus) => {
+    const user = await repo.readUserByEmail(email);
+    const result = await repo.updateUserStatus(user.email, newStatus);
+    return result
 }
 
 module.exports = {
@@ -67,5 +77,6 @@ module.exports = {
     fetchUserByEmail,
     fetchAllUsers,
     updateUserPassword,
-    unregisterUserByEmail
+    updateStatusByUser,
+    updateStatusByAdmin
 }
