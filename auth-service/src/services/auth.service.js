@@ -17,8 +17,12 @@ const registerUser = async (email, password) => {
 }
 
 const registerAdmin = async (email, password, role) => {
-    const admin = await repo.createAdmin(email, password, role);
-    return admin;
+    const existingUser = await repo.readUserByEmail(email);
+    if (existingUser) {
+        throw new Error("Admin already exists");
+    }
+    const hashedPassword = await hashPassword(password);
+    return await repo.createAdmin(email, hashedPassword, role);
 }
 
 const loginUser = async (email, password) => {
