@@ -1,7 +1,5 @@
 const axios = require("axios");
-const {
-    USER_SERVICE
-} = require("../config/services");
+const { USER_SERVICE } = require("../config/services");
 // const { param } = require("../routes/user.routes");
 
 const createProfile = async(req, res) => {
