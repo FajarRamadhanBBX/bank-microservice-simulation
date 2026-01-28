@@ -2,7 +2,7 @@ const axios = require("axios");
 const {
     USER_SERVICE
 } = require("../config/services");
-const { param } = require("../routes/user.routes");
+// const { param } = require("../routes/user.routes");
 
 const createProfile = async(req, res) => {
     try {
@@ -19,21 +19,6 @@ const createProfile = async(req, res) => {
         return res.status(201).json({ message: "Profile created successfully", data: response.data });
     } catch(err) {
         return res.status(500).json({message: "Create profile failed"});
-    }
-}
-
-const getProfile = async(req, res) => {
-    try {
-        const response = await axios.post(
-            `${USER_SERVICE}/users/profiles`,
-            {
-                params: {
-                    "x-user-id": req.user.id,
-                }
-            }
-        )
-    } catch(err) {
-        return res.status(500).json({message: "Get profile failed"});
     }
 }
 
@@ -106,7 +91,7 @@ const deleteMyProfile = async(req, res) => {
 
 module.exports = {
     createProfile,
-    getProfile,
+    getMyProfile,
     getAllProfiles,
     getMyProfile,
     updateMyProfile,
