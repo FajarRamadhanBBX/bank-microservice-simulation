@@ -2,7 +2,7 @@ const db = require('../config/db');
 
 const createUserProfile = async(auth_id, fullname, phone, address) => {
     const res = await db.query(
-        "INSERT INTO users_profile (auth_id, fullname, phone, address) VALUES ($1, $2, $3, $4)",
+        "INSERT INTO profiles (auth_id, fullname, phone, address) VALUES ($1, $2, $3, $4)",
         [auth_id, fullname, phone, address]
     )
     return res;
@@ -10,7 +10,7 @@ const createUserProfile = async(auth_id, fullname, phone, address) => {
 
 const readUserProfileByAuthId = async(auth_id) => {
     const res = await db.query(
-        "SELECT * FROM users_profile WHERE auth_id = $1",
+        "SELECT * FROM profiles WHERE auth_id = $1",
         [auth_id]
     )
     return res.rows[0];
@@ -18,14 +18,14 @@ const readUserProfileByAuthId = async(auth_id) => {
 
 const readAllProfiles = async() => {
     const res = await db.query(
-        "SELECT * FROM users_profile"
+        "SELECT * FROM profiles"
     )
     return res.rows;
 }
 
 const updateUserProfile = async(auth_id, fullname, phone, address) => {
     const res = await db.query(
-        "UPDATE users_profile SET fullname = $1, phone = $2, address = $3 WHERE auth_id = $4",
+        "UPDATE profiles SET fullname = $1, phone = $2, address = $3 WHERE auth_id = $4",
         [fullname, phone, address, auth_id]
     )
     return res;
@@ -33,7 +33,7 @@ const updateUserProfile = async(auth_id, fullname, phone, address) => {
 
 const deleteUserProfileByAuthId = async(auth_id) => {
     const res = await db.query(
-        "DELETE FROM users_profile WHERE auth_id = $1",
+        "DELETE FROM profiles WHERE auth_id = $1",
         [auth_id]
     )
     return res;

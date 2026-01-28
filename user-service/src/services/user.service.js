@@ -1,6 +1,10 @@
 const repo = require('../repositories/user.repo');
 
 const createUserProfile = async(auth_id, fullname, phone, address) => {
+    const existingProfile = await repo.readUserProfileByAuthId(auth_id);
+    if (existingProfile){
+        throw new Error("Profile already exists");
+    }
     const profile = await repo.createUserProfile(auth_id, fullname, phone, address);
     return profile;
 }
