@@ -48,7 +48,6 @@ router.get("/admin/users",
     getUsersAuth
 )
 
-// blom
 router.put("/admin/users/status",
     authMiddleware,
     allowRolesMiddleware(["admin"]),
