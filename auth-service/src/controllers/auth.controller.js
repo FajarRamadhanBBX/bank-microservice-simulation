@@ -10,6 +10,16 @@ const register = async (req, res) => {
     }
 }
 
+const registerAdmin = async (req, res) => {
+    try {
+        const { email, password, role } = req.body;
+        const user = await authService.registerAdmin(email, password, role);
+        res.status(201).json({ message: 'Admin registered successfully', user });
+    } catch (err) {
+        res.status(401).json({ error: err.message });
+    }
+}
+
 const login = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -31,7 +41,7 @@ const getAllUsers = async (req, res) => {
 
 const getUser = async (req, res) => {
     try {
-        const { email } = req.params;
+        const { email } = req.query;
         const user = await authService.fetchUserByEmail(email);
         res.status(200).json({ user });
     } catch (err) {
@@ -81,6 +91,7 @@ const unregisterUser = async (req, res) => {
 
 module.exports = {
     register,
+    registerAdmin,
     login,
     getAllUsers,
     getUser,
