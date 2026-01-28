@@ -4,6 +4,7 @@ const allowRolesMiddleware = require("../middlewares/role.middleware");
 
 const {
     register,
+    registerAdmin,
     login,
     updateUserPassword,
     deactivateMyAuth,
@@ -14,6 +15,10 @@ const {
 
 router.post("/register",
     register
+)
+
+router.post("/register/admin",
+    registerAdmin
 )
 
 router.post("/login",
@@ -31,7 +36,7 @@ router.put("/me/deactivate",
     deactivateMyAuth
 )
 
-router.get("/admin/email/:email",
+router.get("/admin/users/email",
     authMiddleware,
     allowRolesMiddleware(["admin"]),
     getUserByEmail
@@ -43,9 +48,11 @@ router.get("/admin/users",
     getUsersAuth
 )
 
-router.put("/admin/:id/status",
+// blom
+router.put("/admin/users/status",
     authMiddleware,
     allowRolesMiddleware(["admin"]),
     changeUserStatus
 )
 
+module.exports = router;
