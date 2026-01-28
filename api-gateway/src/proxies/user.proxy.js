@@ -22,26 +22,10 @@ const createProfile = async(req, res) => {
     }
 }
 
-const getAllProfiles = async(req, res) => {
-    try {
-        const response = await axios.get(
-            `${USER_SERVICE}/users/profiles`,
-            {
-                headers: {
-                    "x-user-id": req.user.id,
-                    "x-user-role": req.user.role
-                }
-            }
-        )
-    } catch(err) {
-        return res.status(500).json({message: "Get all profiles failed"});
-    }
-}
-
 const getMyProfile = async(req, res) => {
     try {
         const response = await axios.get(
-            `${USER_SERVICE}/users/me`,
+            `${USER_SERVICE}/users/profiles/me`,
             {
                 headers: {
                     "x-user-id": req.user.id,
@@ -73,10 +57,10 @@ const updateMyProfile = async(req, res) => {
     }
 }
 
-const deleteMyProfile = async(req, res) => {
+const getAllProfiles = async(req, res) => {
     try {
-        const response = await axios.delete(
-            `${USER_SERVICE}/users/me`,
+        const response = await axios.get(
+            `${USER_SERVICE}/users/profiles`,
             {
                 headers: {
                     "x-user-id": req.user.id,
@@ -85,9 +69,25 @@ const deleteMyProfile = async(req, res) => {
             }
         )
     } catch(err) {
-        return res.status(500).json({message: "Update profile failed"});
+        return res.status(500).json({message: "Get all profiles failed"});
     }
 }
+
+// const deleteMyProfile = async(req, res) => {
+//     try {
+//         const response = await axios.delete(
+//             `${USER_SERVICE}/users/me`,
+//             {
+//                 headers: {
+//                     "x-user-id": req.user.id,
+//                     "x-user-role": req.user.role
+//                 }
+//             }
+//         )
+//     } catch(err) {
+//         return res.status(500).json({message: "Update profile failed"});
+//     }
+// }
 
 module.exports = {
     createProfile,
@@ -95,5 +95,4 @@ module.exports = {
     getAllProfiles,
     getMyProfile,
     updateMyProfile,
-    deleteMyProfile
 };
