@@ -6,6 +6,9 @@ router.post('/', accountController.createAccount);
 router.get('/me', accountController.getMyAccount);
 router.put('/admin/freeze', accountController.freezeAccount);
 router.get('/lookup', accountController.lookupAccount);
+router.get('/internal/account', 
+    accountController.getAccountInternal
+);
 router.post('/internal/balance', 
     verifyInternalAccess,
     accountController.updateBalanceInternal
