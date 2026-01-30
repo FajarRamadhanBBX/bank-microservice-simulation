@@ -40,8 +40,7 @@ const getMyAccount = async (req, res) => {
 
 const freezeAccount = async (req, res) => {
     try {
-        const { id } = req.params;
-        const { is_frozen } = req.body;
+        const { id, is_frozen } = req.body;
 
         if (is_frozen === undefined) {
             return res.status(400).json({ message: "Field 'is_frozen' is required" });
@@ -63,7 +62,7 @@ const lookupAccount = async (req, res) => {
         const { account_number } = req.query;
 
         if (!account_number) {
-            return res.status(400).json({ message: "Query param 'account_number' is required" });
+            return res.status(400).json({ message: "body 'account_number' is required" });
         }
 
         const result = await accountService.lookupAccount(account_number);

@@ -1,4 +1,4 @@
-const generateRandomNumber = (length) => {
+const generateRandomNumber = async (length) => {
     let result = '';
     const characters = '0123456789';
     for (let i = 0; i < length; i++) {
@@ -7,4 +7,4 @@ const generateRandomNumber = (length) => {
     return result;
 }
 
-module.exports = generateRandomNumber;
+module.exports = { generateRandomNumber };
