@@ -40,7 +40,7 @@ const getMyAccount = async (req, res) => {
 
 const getAccountInternal = async (req, res) => {
     try {
-        const {auth_id} = req.body;
+        const { auth_id } = req.query;
         console.log("account controller, authId:", auth_id);
         const account = await accountService.getAccountByAuthId(auth_id);
 
