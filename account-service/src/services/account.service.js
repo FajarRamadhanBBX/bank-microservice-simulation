@@ -31,6 +31,14 @@ const getMyAccount = async (auth_id) => {
     return myAccount;
 }
 
+const getAccountByAuthId = async (auth_id) => {
+    const myAccount = await repo.getAccountByAuthId(auth_id);
+    if (!myAccount) {
+        throw new Error("Account not found");
+    }
+    return myAccount;
+}
+
 const freezeAccount = async (id, is_active) => {
     const profileExist = await repo.getAccountById(id);
     if (!profileExist) {
@@ -70,6 +78,7 @@ const updateBalance = async (account_number, amount) => {
 module.exports = {
     createAccount,
     getMyAccount,
+    getAccountByAuthId,
     freezeAccount,
     lookupAccount,
     updateBalance
