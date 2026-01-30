@@ -1,6 +1,21 @@
 const repo = require("../repositories/transaction.repo");
 const axios = require("axios");
-const { ACCOUNT_SERVICE } = require("../config/services"); // http://localhost:4002
+const { ACCOUNT_SERVICE } = require("../config/services");
+
+const getAccountId = async (auth_id) => {
+    try {
+        console.log("service get accoutId, id:",auth_id)
+        const response = await axios.get(`${ACCOUNT_SERVICE}/internal/account`,
+            {
+                auth_id: auth_id
+            }
+        );
+        console.log("response:", response.data)
+        return response.data.auth_id;
+    } catch (error) {
+        throw new Error("Failed to contact Account Service");
+    }
+};
 
 const callAccountService = async (accountNumber, amount) => {
     try {
@@ -14,8 +29,7 @@ const callAccountService = async (accountNumber, amount) => {
     }
 };
 
-const transfer = async (senderNum, receiverNum, amount) => {
-    const auth_id = req.headers["x-user-id"];
+const transfer = async (account_id, senderNum, receiverNum, amount) => {
     if (amount <= 0) throw new Error("Amount must be positive");
     if (senderNum === receiverNum) throw new Error("Cannot transfer to self");
 
@@ -30,7 +44,7 @@ const transfer = async (senderNum, receiverNum, amount) => {
     }
 
     const log = await repo.createTransaction(
-        auth_id,
+        account_id,
         senderNum,
         receiverNum,
         amount,
@@ -41,14 +55,13 @@ const transfer = async (senderNum, receiverNum, amount) => {
     return log;
 };
 
-const withdraw = async (senderNum, amount) => {
-    const auth_id = req.headers["x-user-id"];
+const withdraw = async (account_id, senderNum, amount) => {
     if (amount <= 0) throw new Error("Amount must be positive");
 
     await callAccountService(senderNum, -amount);
 
     const log = await repo.createTransaction(
-        auth_id,
+        account_id,
         senderNum,
         null,
         amount,
@@ -59,14 +72,13 @@ const withdraw = async (senderNum, amount) => {
     return log;
 };
 
-const topup = async (receiverNum, amount) => {
-    const auth_id = req.headers["x-user-id"];
+const topup = async (account_id, receiverNum, amount) => {
     if (amount <= 0) throw new Error("Amount must be positive");
 
     await callAccountService(receiverNum, amount);
 
     const log = await repo.createTransaction(
-        auth_id,
+        account_id,
         null,
         receiverNum,
         amount,
@@ -100,5 +112,6 @@ module.exports = {
     withdraw,
     topup,
     myTransactions,
-    allTransactions
+    allTransactions,
+    getAccountId
 };
