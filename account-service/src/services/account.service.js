@@ -1,24 +1,24 @@
 const repo = require("../repositories/account.repo");
-const utils = require("../utils/accountNumber")
+const { generateRandomNumber } = require("../utils/accountNumber")
 
 const createAccount = async (auth_id) => {
     const existingAccount = await repo.getAccountByAuthId(auth_id);
     if (existingAccount) {
         throw new Error("This person have an account!");
     }
-
+    
     let accountNumber;
     let isAccountExists = true;
 
     while (isAccountExists) {
-        accountNumber = utils.generateRandomNumber(16);
+        accountNumber = await generateRandomNumber(16);
         const check = await repo.getAccountByNumber(accountNumber);
-
+        
         if (!check) {
             isAccountExists = false;
         }
     }
-
+    
     const account = await repo.createAccount(auth_id, accountNumber);
     return account;
 }
@@ -57,7 +57,7 @@ const updateBalance = async (account_number, amount) => {
         throw new Error("Account doesn't exist");
     }
 
-    const currentBalance = pareFloat(account.balance);
+    const currentBalance = parseFloat(account.balance);
     const diff = currentBalance + amount 
     if (diff < 0) {
         throw new Error("Not enough money")
