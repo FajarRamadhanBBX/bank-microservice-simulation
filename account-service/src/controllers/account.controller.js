@@ -38,6 +38,21 @@ const getMyAccount = async (req, res) => {
     }
 };
 
+const getAccountInternal = async (req, res) => {
+    try {
+        const {auth_id} = req.body;
+        console.log("account controller, authId:", auth_id);
+        const account = await accountService.getAccountByAuthId(auth_id);
+
+        return res.status(200).json({
+            message: "Success",
+            data: account
+        });
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+}
+
 const freezeAccount = async (req, res) => {
     try {
         const { id, is_frozen } = req.body;
@@ -100,5 +115,6 @@ module.exports = {
     getMyAccount,
     freezeAccount,
     lookupAccount,
+    getAccountInternal,
     updateBalanceInternal
 };
