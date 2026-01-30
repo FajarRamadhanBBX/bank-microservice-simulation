@@ -1,11 +1,11 @@
 const axios = require("axios");
-const { TRANSACTIONS_SERVICE } = require("../config/services");
+const { TRANSACTION_SERVICE } = require("../config/services");
 
 const transaction = async(req, res) => {
     try {
         console.log("proxy, req:", req.body);
         const response = await axios.post(
-            `${TRANSACTIONS_SERVICE}/transactions`,
+            `${TRANSACTION_SERVICE}/transactions`,
             req.body,
             {
                 headers: {
@@ -23,7 +23,7 @@ const transaction = async(req, res) => {
 const myTransactionHistory = async(req, res) => {
     try {
         const response = await axios.get(
-            `${TRANSACTIONS_SERVICE}/transactions/me`,
+            `${TRANSACTION_SERVICE}/transactions/me`,
             {
                 headers: {
                     "x-user-id": req.user.id,
@@ -40,7 +40,7 @@ const myTransactionHistory = async(req, res) => {
 const allTransactionsHistory = async(req, res) => {
     try {
         const response = await axios.get(
-            `${TRANSACTIONS_SERVICE}/transactions/admin/history`,
+            `${TRANSACTION_SERVICE}/transactions/admin/history`,
             {
                 headers: {
                     "x-user-id": req.user.id,

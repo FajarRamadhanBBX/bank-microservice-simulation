@@ -7,11 +7,13 @@ const getAccountId = async (auth_id) => {
         console.log("service get accoutId, id:",auth_id)
         const response = await axios.get(`${ACCOUNT_SERVICE}/internal/account`,
             {
-                auth_id: auth_id
+                params:{
+                    auth_id: auth_id
+                }
             }
         );
         console.log("response:", response.data)
-        return response.data.auth_id;
+        return response.data.data.auth_id;
     } catch (error) {
         throw new Error("Failed to contact Account Service");
     }
