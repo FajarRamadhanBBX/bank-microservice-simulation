@@ -2,7 +2,7 @@ const db = require("../config/db");
 
 const createAccount = async(auth_id, account_number) => {
     const res = await db.query(
-        "INSERT INTO accounts (auth_id, account_number) VALUES ($1, $2)",
+        "INSERT INTO accounts (auth_id, account_number) VALUES ($1, $2) RETURNING *",
         [auth_id, account_number]
     )
     return res.rows[0];
