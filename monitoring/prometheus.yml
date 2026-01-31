@@ -1,0 +1,11 @@
+global:
+  scrape_interval: 5s
+
+scrape_configs:
+  - job_name: 'bank-services'
+    static_configs:
+      - targets: 
+        - 'api-gateway:4000'
+        - 'auth-service:4001'
+        - 'user-service:4002'
+        - 'account-service:4003'
