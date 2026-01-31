@@ -5,7 +5,7 @@ const { ACCOUNT_SERVICE } = require("../config/services");
 const getAccountId = async (auth_id) => {
     try {
         console.log("service get accoutId, id:",auth_id)
-        const response = await axios.get(`${ACCOUNT_SERVICE}/internal/account`,
+        const response = await axios.get(`${ACCOUNT_SERVICE}/accounts/internal/account`,
             {
                 params:{
                     auth_id: auth_id
