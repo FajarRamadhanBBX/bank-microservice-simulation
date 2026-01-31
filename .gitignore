@@ -13,3 +13,6 @@ Bank Microservice Project.drawio
 run-db.sh
 stop-db.sh
 ecosystem.config.js
+
+# GitHub Actions Runner
+actions-runner
