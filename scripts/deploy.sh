@@ -1,5 +1,5 @@
 #!/bin/bash
-# Define variabel in github secrets, call in github workflos
+# Define variabel in github secrets, call in github workflows
 PROJECT_DIR=$1
 
 if [ -z "$PROJECT_DIR" ]; then
