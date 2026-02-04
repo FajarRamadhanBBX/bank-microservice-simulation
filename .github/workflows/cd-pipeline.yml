@@ -23,7 +23,7 @@ jobs:
         with:
           context: ./api-gateway
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/api-gateway:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/api-gateway:v1
 
       # Build & Push Auth Service
       - name: Build & Push Auth Service
@@ -31,7 +31,7 @@ jobs:
         with:
           context: ./auth-service
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/auth-service:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/auth-service:v1
 
       # Build & Push User Service
       - name: Build & Push User Service
@@ -39,7 +39,7 @@ jobs:
         with:
           context: ./user-service
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/user-service:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/user-service:v1
 
       # Build & Push Account Service
       - name: Build & Push Account Service
@@ -47,7 +47,7 @@ jobs:
         with:
           context: ./account-service
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/account-service:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/account-service:v1
 
   deploy:
     needs: build-and-push
@@ -63,7 +63,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Make script executable
-        run: chmod +x deploy.sh
+        run: chmod +x ./scripts/deploy.sh
 
       - name: Run Deployment Script
-        run: ./deploy.sh "${{ secrets.PROJECT_DIR }}"
+        run: ./scripts/deploy.sh "${{ secrets.PROJECT_DIR }}"
