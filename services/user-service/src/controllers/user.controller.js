@@ -1,0 +1,77 @@
+const userService = require('../services/user.service');
+
+const testDb = async (req, res) => {
+    try {
+        const result = await accountService.testDb();
+        return res.status(200).json({
+            message: "user service available",
+            status: "success",
+            data: result
+        });
+    } catch (err) {
+        return res.status(503).json({
+            message: "user service not available",
+            status: "failed",
+        });
+    }
+}
+
+const createProfile = async (req, res) => {
+    try {
+        const { fullname, phone, address } = req.body;
+        const auth_id = req.headers["x-user-id"];
+        const profile = await userService.createUserProfile(auth_id, fullname, phone, address);
+        res.status(201).json({ message: 'User profile created successfully', profile });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+}
+
+const getProfile = async (req, res) => {
+    try {
+        const auth_id = req.headers["x-user-id"];
+        const profile = await userService.fetchProfileByAuthId(auth_id);
+        res.status(200).json({ profile });
+    } catch (err) {
+        res.status(404).json({ error: err.message });
+    }
+}
+
+const getAllProfiles = async (req, res) => {
+    try {
+        const profiles = await userService.fetchAllProfiles();
+        res.status(200).json({ profiles });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+}
+
+const getMe = async (req, res) => {
+    try {
+        const userId = req.headers['x-user-id'];
+        const user = await userService.fetchProfileByAuthId(userId);
+        res.status(200).json({ user });
+    } catch (err) {
+        res.status(404).json({ error: err.message });
+    }   
+}
+
+const updateMyProfile = async (req, res) => {
+    try {
+        const userId = req.headers['x-user-id'];
+        const { fullname, phone, address } = req.body;
+        const updatedProfile = await userService.updateUserProfile(userId, fullname, phone, address);
+        res.status(200).json({ message: 'Profile updated successfully', updatedProfile });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+}
+
+module.exports = {
+    testDb,
+    createProfile,
+    getProfile,
+    getAllProfiles,
+    getMe,
+    updateMyProfile,
+}
