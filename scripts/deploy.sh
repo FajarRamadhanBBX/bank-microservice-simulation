@@ -3,7 +3,7 @@
 PROJECT_DIR=$1
 
 if [ -z "$PROJECT_DIR" ]; then
-  echo "Error: Path project belum didefinisikan!"
+  echo "Error: Path not define!"
   exit 1
 fi
 
