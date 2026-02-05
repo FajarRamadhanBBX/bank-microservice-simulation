@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const authController = require("../controllers/auth.controller");
 
-router.get('/health', authController.testDb);
+router.get("/health", authController.testDb);
 router.post("/register", authController.register);
 router.post("/login", authController.login);
 router.put("/update-password", authController.updatePassword);
