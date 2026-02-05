@@ -22,7 +22,7 @@ services:
     volumes:
       - user-data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - "5432:5432" # Change this port if collision with other service (regularly PostgreSQL)
 
   account-postgres:
     image: postgres:17

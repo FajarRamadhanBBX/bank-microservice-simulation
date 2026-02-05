@@ -5,65 +5,119 @@ on:
     branches: [ "main" ]
 
 jobs:
+  check-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      auth: ${{ steps.filter.outputs.auth }}
+      account: ${{ steps.filter.outputs.account }}
+      user: ${{ steps.filter.outputs.user }}
+      gateway: ${{ steps.filter.outputs.gateway }}
+    steps:
+    - uses: actions/checkout@v5
+    - uses: dorny/paths-filter@v3
+      id: filter
+      with:
+        filters: |
+          auth:
+            - "services/auth-service/**"
+          account:
+            - "services/account-service/**"
+          user:
+            - "services/user-service/**"
+          gateway:
+            - "services/api-gateway/**"
+
+  test-auth:
+    needs: check-changes
+    if: ${{ needs.check-changes.outputs.auth == 'true' }}
+    runs-on: self-hosted
+    steps: 
+      - uses: actions/checkout@v5
+      - run: chmod +x ./scripts/smoke-test-auth.sh
+      - run: ./scripts/smoke-test-auth.sh
+
+  test-account:
+    needs: check-changes
+    if: ${{ needs.check-changes.outputs.account == 'true' }}
+    runs-on: self-hosted
+    steps: 
+      - uses: actions/checkout@v5
+      - run: chmod +x ./scripts/smoke-test-account.sh    
+      - run: ./scripts/smoke-test-account.sh    
+
+  test-user:
+    needs: check-changes
+    if: ${{ needs.check-changes.outputs.user == 'true' }}
+    runs-on: self-hosted
+    steps: 
+      - uses: actions/checkout@v5
+      - run: chmod +x ./scripts/smoke-test-user.sh  
+      - run: ./scripts/smoke-test-user.sh  
+
   build-and-push:
+    needs: [check-changes, test-auth, test-user, test-account]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v5
 
       - name: Login to Docker Hub
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       # Build & Push Gateway
       - name: Build & Push Gateway
+        if: ${{ needs.check-changes.outputs.gateway == 'true' }}
         uses: docker/build-push-action@v4
         with:
-          context: ./api-gateway
+          context: ./services/api-gateway
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/api-gateway:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/api-gateway:v1
 
       # Build & Push Auth Service
       - name: Build & Push Auth Service
+        if: ${{ needs.check-changes.outputs.auth == 'true' }}
         uses: docker/build-push-action@v4
         with:
-          context: ./auth-service
+          context: ./services/auth-service
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/auth-service:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/auth-service:v1
 
       # Build & Push User Service
       - name: Build & Push User Service
+        if: ${{ needs.check-changes.outputs.user == 'true' }}
         uses: docker/build-push-action@v4
         with:
-          context: ./user-service
+          context: ./services/user-service
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/user-service:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/user-service:v1
 
       # Build & Push Account Service
       - name: Build & Push Account Service
+        if: ${{ needs.check-changes.outputs.account == 'true' }}
         uses: docker/build-push-action@v4
         with:
-          context: ./account-service
+          context: ./services/account-service
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/account-service:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/account-service:v1
 
   deploy:
     needs: build-and-push
     runs-on: self-hosted
     steps:
       - name: Checkout Config
-        uses: actions/checkout@v3
+        uses: actions/checkout@v5
 
       - name: Login to Docker Hub (on Local)
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Make script executable
-        run: chmod +x deploy.sh
+        run: chmod +x ./scripts/deploy.sh
 
       - name: Run Deployment Script
-        run: ./deploy.sh "${{ secrets.PROJECT_DIR }}"
+        run: ./scripts/deploy.sh "${{ secrets.PROJECT_DIR }}"
