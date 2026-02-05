@@ -38,7 +38,7 @@ services:
 
   # === Microservices ===
   auth-service:
-    image: fajarramadhan/auth-service:latest
+    image: fajarramadhan/auth-service:v1
     container_name: auth-service
     environment:
       - APP_PORT=4001
@@ -55,7 +55,7 @@ services:
       - auth-postgres
 
   user-service:
-    image: fajarramadhan/user-service:latest
+    image: fajarramadhan/user-service:v1
     container_name: user-service
     environment:
       - APP_PORT=4002
@@ -70,7 +70,7 @@ services:
       - user-postgres
 
   account-service:
-    image: fajarramadhan/account-service:latest
+    image: fajarramadhan/account-service:v1
     container_name: account-service
     environment:
       - APP_PORT=4003
@@ -86,7 +86,7 @@ services:
       - account-postgres
 
   api-gateway:
-    image: fajarramadhan/api-gateway:latest
+    image: fajarramadhan/api-gateway:v1
     container_name: api-gateway
     environment:
       - APP_PORT=4000
