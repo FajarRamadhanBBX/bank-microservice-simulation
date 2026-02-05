@@ -14,9 +14,9 @@ const initDb = async () => {
                 updated_at TIMESTAMP DEFAULT NOW()
             );
         `);
-        console.log("✅ Table 'auth' created or already exists.");
+        console.log("Table 'auth' created, or already exists.");
     } catch (error) {
-        console.error("❌ Error creating table:", error.message);
+        console.error("Error creating table:", error.message);
     }
 };
 
