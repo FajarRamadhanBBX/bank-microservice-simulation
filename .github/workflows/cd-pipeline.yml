@@ -3,15 +3,27 @@ name: CI/CD Pipeline
 on:
   push:
     branches: [ "main" ]
+  workflow_dispatch:
+    inputs:
+      service_to_deploy:
+        required: true
+        default: 'all'
+        type: choice
+        options:
+        - auth
+        - account
+        - user
+        - gateway
+        - all
 
 jobs:
   check-changes:
     runs-on: ubuntu-latest
     outputs:
-      auth: ${{ steps.filter.outputs.auth }}
-      account: ${{ steps.filter.outputs.account }}
-      user: ${{ steps.filter.outputs.user }}
-      gateway: ${{ steps.filter.outputs.gateway }}
+      auth: ${{ steps.filter.outputs.auth == 'true' || github.event.inputs.service_to_deploy == 'auth' || github.event.inputs.service_to_deploy == 'all' }}
+      account: ${{ steps.filter.outputs.account == 'true' || github.event.inputs.service_to_deploy == 'account' || github.event.inputs.service_to_deploy == 'all' }}
+      user: ${{ steps.filter.outputs.user == 'true' || github.event.inputs.service_to_deploy == 'user' || github.event.inputs.service_to_deploy == 'all' }}
+      gateway: ${{ steps.filter.outputs.gateway == 'true' || github.event.inputs.service_to_deploy == 'gateway' || github.event.inputs.service_to_deploy == 'all' }}
     steps:
     - uses: actions/checkout@v5
     - uses: dorny/paths-filter@v3
@@ -56,6 +68,7 @@ jobs:
 
   build-and-push:
     needs: [check-changes, test-auth, test-user, test-account]
+    if: ${{ !failure() && !cancelled() }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
