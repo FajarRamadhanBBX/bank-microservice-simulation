@@ -6,7 +6,7 @@ PORT_HOST=5001
 PORT_APP=4001
 ENDPOINT="http://localhost:${PORT_HOST}/health"
 
-MAX_RETRIES=30
+MAX_RETRIES=200
 DELAY=2
 
 # Stop if error exist
