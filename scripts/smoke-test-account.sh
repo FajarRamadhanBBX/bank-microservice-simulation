@@ -34,7 +34,7 @@ while [ $count -lt $MAX_RETRIES ]; do
     echo "Service not ready, hit counting: ${count}"
 done
 
-if [ $count -eq MAX_RETRIES ]; then
+if [ $count -eq $MAX_RETRIES ]; then
     echo "Timeout! Service failed to start"
     echo "Container logs"
     docker logs $CONTAINER_NAME
