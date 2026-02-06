@@ -1,20 +1,20 @@
-name: CI/CD Pipeline
+name: CI/CD Pipeline (Prohibited)
 
-on:
-  push:
-    branches: [ "main" ]
-  workflow_dispatch:
-    inputs:
-      service_to_deploy:
-        required: true
-        default: 'all'
-        type: choice
-        options:
-        - auth
-        - account
-        - user
-        - gateway
-        - all
+# on:
+  # push:
+    # branches: [ "main" ]
+  # workflow_dispatch:
+    # inputs:
+      # service_to_deploy:
+        # required: true
+        # default: 'all'
+        # type: choice
+        # options:
+        # - auth
+        # - account
+        # - user
+        # - gateway
+        # - all
 
 jobs:
   check-changes:
