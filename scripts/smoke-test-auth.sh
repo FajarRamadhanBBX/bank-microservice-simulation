@@ -19,7 +19,11 @@ echo "remove container with same name ..."
 docker rm -f $CONTAINER_NAME 2>/dev/null || true
 
 echo "run container ..."
-docker run -d -p $PORT_HOST:$PORT_APP --name $CONTAINER_NAME $IMAGE_NAME
+docker run \
+  -p $PORT_HOST:$PORT_APP \
+  -e PORT=$PORT_APP \
+  --name $CONTAINER_NAME \
+  $IMAGE_NAME
 
 set +e
 
