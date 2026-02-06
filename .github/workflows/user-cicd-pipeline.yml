@@ -35,6 +35,7 @@ jobs:
 
   build-and-push:
     needs: [check-changes, test-user]
+    if: ${{ needs.check-changes.outputs.user == 'true' && github.event.inputs.dry_run != 'true' }}
     if: ${{ !failure() && !cancelled() }}
     runs-on: ubuntu-latest
     steps:
