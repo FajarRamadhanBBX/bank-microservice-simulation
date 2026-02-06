@@ -2,8 +2,9 @@
 
 IMAGE_NAME=auth-service-test:test
 CONTAINER_NAME=auth-service-test
-PORT=5001
-ENDPOINT="http://localhost:${PORT}/health"
+PORT_HOST=5001
+PORT_APP=4001
+ENDPOINT="http://localhost:${PORT_HOST}/health"
 
 MAX_RETRIES=30
 DELAY=2
@@ -18,7 +19,7 @@ echo "remove container with same name ..."
 docker rm -f $CONTAINER_NAME 2>/dev/null || true
 
 echo "run container ..."
-docker run -d -p $PORT:$PORT --name $CONTAINER_NAME $IMAGE_NAME
+docker run -d -p $PORT_HOST:$PORT_APP --name $CONTAINER_NAME $IMAGE_NAME
 
 set +e
 
