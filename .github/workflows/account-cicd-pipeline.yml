@@ -36,7 +36,6 @@ jobs:
   build-and-push:
     needs: [check-changes, test-account]
     if: ${{ needs.check-changes.outputs.account == 'true' && github.event.inputs.dry_run != 'true' }}
-    if: ${{ !failure() && !cancelled() }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
