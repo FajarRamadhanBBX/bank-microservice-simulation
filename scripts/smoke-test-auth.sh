@@ -77,7 +77,7 @@ until docker run --rm --network $DOCKER_NETWORK curlimages/curl -sf $INTERNAL_EN
   fi
 done
 
-echo "Smoke test PASSED! Service is healthy."
+echo "+=+= Smoke test PASSED! Service is healthy. =+=+"
 # Cleanup
 echo "Cleaning up test container..."
 echo "=========== Container logs: ==========="
