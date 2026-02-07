@@ -32,7 +32,7 @@ jobs:
       AUTH_USER: ${{ secrets.AUTH_USER }}
       AUTH_PASSWORD: ${{ secrets.AUTH_PASSWORD }}
       AUTH_DB: ${{ secrets.AUTH_DB }}
-      DOCKER_NETWORK: auth-backend-network
+      DOCKER_NETWORK: backend-network
     steps: 
       - uses: actions/checkout@v5
       - run: chmod +x ./scripts/smoke-test-auth.sh
