@@ -43,9 +43,9 @@ jobs:
         if: ${{ needs.check-changes.outputs.gateway == 'true' }}
         uses: docker/build-push-action@v4
         with:
-          context: ./services/gateway-service
+          context: ./services/api-gateway
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/gateway-service:v1
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/api-gateway:v1
 
   deploy:
     needs: build-and-push
