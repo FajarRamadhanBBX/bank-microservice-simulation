@@ -9,7 +9,7 @@ PORT_HOST=5001
 ENDPOINT="http://localhost:${PORT_HOST}/auth/health"
 
 # Adjust with your network
-DOCKER_NETWORK="backend-network"
+DOCKER_NETWORK="backend"
 
 # DB Configuration
 DB_HOST="auth-postgres" # from service name in compose
@@ -27,7 +27,7 @@ docker rm -f $CONTAINER_NAME 2>/dev/null || true
 
 # Build image test
 echo "Build auth-service image..."
-docker build -t $IMAGE_NAME ./services/auth-service
+docker build -t $IMAGE_NAME ../services/auth-service
 
 # Run container (join with compose network)
 echo "Run smoke test auth service container..."
