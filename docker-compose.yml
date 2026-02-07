@@ -11,6 +11,8 @@ services:
       - auth-data:/var/lib/postgresql/data
     ports:
       - "5431:5432"
+    networks:
+      - backend
 
   user-postgres:
     image: postgres:17
@@ -23,6 +25,8 @@ services:
       - user-data:/var/lib/postgresql/data
     ports:
       - "5432:5432" # Change this port if collision with other service (regularly PostgreSQL)
+    networks:
+      - backend
 
   account-postgres:
     image: postgres:17
@@ -35,6 +39,8 @@ services:
       - account-data:/var/lib/postgresql/data
     ports:
       - "5433:5432"
+    networks:
+      - backend
 
   # === Microservices ===
   auth-service:
@@ -53,6 +59,9 @@ services:
       - "4001:4001"
     depends_on:
       - auth-postgres
+    networks:
+      - backend
+      - edge
 
   user-service:
     image: fajarramadhan/user-service:v1
@@ -68,6 +77,9 @@ services:
       - "4002:4002"
     depends_on:
       - user-postgres
+    networks:
+      - backend
+      - edge
 
   account-service:
     image: fajarramadhan/account-service:v1
@@ -84,6 +96,9 @@ services:
       - "4003:4003"
     depends_on:
       - account-postgres
+    networks:
+      - backend
+      - edge
 
   api-gateway:
     image: fajarramadhan/api-gateway:v1
@@ -103,6 +118,8 @@ services:
       - auth-service
       - user-service
       - account-service
+    networks:
+      - edge
 
   # === Observability ===
   prometheus:
@@ -112,6 +129,8 @@ services:
       - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
+    networks:
+      - edge
 
   grafana:
     image: grafana/grafana
@@ -120,8 +139,20 @@ services:
       - "3000:3000"
     depends_on:
       - prometheus
+    networks:
+      - edge
 
 volumes:
   auth-data:
   user-data:
   account-data:
+
+networks:
+  backend:
+    name: backend-network
+    driver: bridge
+    internal: true
+  
+  edge:
+    name: edge-network
+    driver: bridge
