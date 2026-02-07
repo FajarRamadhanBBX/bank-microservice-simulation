@@ -8,6 +8,10 @@ const client = require("prom-client");
 const collectDefaultMetrics = client.collectDefaultMetrics;
 collectDefaultMetrics();
 
+app.get("/health", (req, res) => {
+    res.status(200).json({ status: "OK", service: "api-gateway" });
+});
+
 app.get("/metrics", async(req, res) => {
     res.set("content-type", client.register.contentType);
     res.end(await client.register.metrics());
