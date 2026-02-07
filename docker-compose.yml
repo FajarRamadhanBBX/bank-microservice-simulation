@@ -44,7 +44,7 @@ services:
 
   # === Microservices ===
   auth-service:
-    image: fajarramadhan/auth-service:v1
+    image: fajarramadhan/auth-service:v2
     container_name: auth-service
     environment:
       - APP_PORT=4001
@@ -64,7 +64,7 @@ services:
       - edge
 
   user-service:
-    image: fajarramadhan/user-service:v1
+    image: fajarramadhan/user-service:v2
     container_name: user-service
     environment:
       - APP_PORT=4002
@@ -82,7 +82,7 @@ services:
       - edge
 
   account-service:
-    image: fajarramadhan/account-service:v1
+    image: fajarramadhan/account-service:v2
     container_name: account-service
     environment:
       - APP_PORT=4003
