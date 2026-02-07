@@ -13,7 +13,7 @@ const createAccount = async (req, res) => {
                 }
             }
         )
-        return res.status(201).json({ message: "Profile created successfully", data: response.data });
+        return res.status(201).json({ message: "Profile created successfully.", data: response.data });
     } catch(err) {
         return res.status(500).json({message: "Create profile failed"});
     }
