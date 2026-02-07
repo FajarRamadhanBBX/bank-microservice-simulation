@@ -6,7 +6,7 @@ const authController = require("../controllers/auth.controller");
 router.get("/health", async (_req, res) => {
   try {
     tes = await pool.query("SELECT 1");
-    console.log("Request reached here, From /health")
+    console.log("Request reach here, From /health");
     return res.status(200).send("OK");
   } catch (err) {
     console.error("Health check error:", err.message);
