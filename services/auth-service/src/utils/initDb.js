@@ -24,7 +24,7 @@ const initDb = async () => {
     console.log("Table 'users' created or already exists.");
   } catch (err) {
     console.error("DB init failed:", err);
-    process.exit(1); // ⬅️ IMPORTANT
+    process.exit(1); 
   }
 };
 
