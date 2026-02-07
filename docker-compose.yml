@@ -13,6 +13,11 @@ services:
       - "5431:5432"
     networks:
       - backend
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${AUTH_USER} -d ${AUTH_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   user-postgres:
     image: postgres:17
@@ -27,6 +32,11 @@ services:
       - "5432:5432" # Change this port if collision with other service (regularly PostgreSQL)
     networks:
       - backend
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${USERS_USER} -d ${USERS_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   account-postgres:
     image: postgres:17
@@ -41,6 +51,11 @@ services:
       - "5433:5432"
     networks:
       - backend
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${ACCOUNT_USER} -d ${ACCOUNT_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   # === Microservices ===
   auth-service:
@@ -58,10 +73,17 @@ services:
     ports:
       - "4001:4001"
     depends_on:
-      - auth-postgres
+      auth-postgres:
+        condition: service_healthy
     networks:
       - backend
       - edge
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4001/auth/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
 
   user-service:
     image: fajarramadhan/user-service:v2
@@ -76,10 +98,17 @@ services:
     ports:
       - "4002:4002"
     depends_on:
-      - user-postgres
+      user-postgres:
+        condition: service_healthy
     networks:
       - backend
       - edge
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4002/users/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
 
   account-service:
     image: fajarramadhan/account-service:v2
@@ -95,10 +124,17 @@ services:
     ports:
       - "4003:4003"
     depends_on:
-      - account-postgres
+      account-postgres:
+        condition: service_healthy
     networks:
       - backend
       - edge
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4003/accounts/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
 
   api-gateway:
     image: fajarramadhan/api-gateway:v1
@@ -115,11 +151,20 @@ services:
     ports:
       - "4000:4000" 
     depends_on:
-      - auth-service
-      - user-service
-      - account-service
+      auth-service:
+        condition: service_healthy
+      user-service:
+        condition: service_healthy
+      account-service:
+        condition: service_healthy
     networks:
       - edge
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
 
   # === Observability ===
   prometheus:
