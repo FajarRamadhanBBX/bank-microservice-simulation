@@ -6,7 +6,7 @@ IMAGE_NAME="user-service-test:test"
 CONTAINER_NAME="user-service-test"
 APP_PORT=4002
 PORT_HOST=5002
-ENDPOINT="http://localhost:${PORT_HOST}/health"
+ENDPOINT="http://localhost:${PORT_HOST}/users/health"
 
 # Adjust with your network
 DOCKER_NETWORK="backend-network"
