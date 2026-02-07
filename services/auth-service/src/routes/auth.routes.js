@@ -5,8 +5,10 @@ const authController = require("../controllers/auth.controller");
 
 router.get("/health", async (_req, res) => {
   try {
+    tes = await pool.query("SELECT 1");
     return res.status(200).send("OK");
   } catch (err) {
+    console.error("Health check error:", err.message);
     return res.status(503).send("DB NOT READY");
   }
 });
