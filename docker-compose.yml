@@ -16,7 +16,7 @@ services:
 
   user-postgres:
     image: postgres:17
-    container_name: user_db
+    container_name: users_db
     environment:
       POSTGRES_USER: ${USERS_USER}
       POSTGRES_PASSWORD: ${USERS_PASSWORD}
