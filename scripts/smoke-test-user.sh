@@ -27,7 +27,7 @@ docker rm -f $CONTAINER_NAME 2>/dev/null || true
 
 # Build image test
 echo "Build user-service image..."
-docker build -t $IMAGE_NAME ../services/user-service
+docker build -t $IMAGE_NAME ./services/user-service
 
 # Run container (join with compose network)
 echo "Run smoke test user service container..."
