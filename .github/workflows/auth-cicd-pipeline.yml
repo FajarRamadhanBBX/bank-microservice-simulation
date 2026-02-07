@@ -57,7 +57,7 @@ jobs:
         with:
           context: ./services/auth-service
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/auth-service:v1
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/auth-service:v2
 
   deploy:
     needs: build-and-push
