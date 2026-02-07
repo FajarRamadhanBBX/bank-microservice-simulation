@@ -31,7 +31,7 @@ docker rm -f $CONTAINER_NAME 2>/dev/null || true
 
 # Build Image
 echo "Building account-service image..."
-docker build -t $IMAGE_NAME .services/account-service
+docker build -t $IMAGE_NAME ./services/account-service
 
 # Run Container
 echo "Running account-service container..."
