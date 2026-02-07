@@ -9,7 +9,7 @@ PORT_HOST=5003
 ENDPOINT="http://localhost:${PORT_HOST}/accounts/health"
 
 # Adjust with your network
-DOCKER_NETWORK="backend-network"
+DOCKER_NETWORK=$DOCKER_NETWORK
 
 # DB Configuration
 DB_HOST="account-postgres" # from service name in compose
