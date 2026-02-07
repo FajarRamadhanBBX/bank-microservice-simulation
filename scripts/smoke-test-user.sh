@@ -31,7 +31,7 @@ docker rm -f $CONTAINER_NAME 2>/dev/null || true
 
 # Build Image
 echo "Building user-service image..."
-docker build -t $IMAGE_NAME ../services/user-service
+docker build -t $IMAGE_NAME ./services/user-service
 
 # Run Container
 echo "Running user-service container..."
